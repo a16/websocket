@@ -789,6 +789,9 @@ func (c *Conn) advanceFrame() (int, error) {
 
 	final := p[0]&finalBit != 0
 	frameType := int(p[0] & 0xf)
+	if !final {
+		frameType = continuationFrame
+	}
 	mask := p[1]&maskBit != 0
 	c.readRemaining = int64(p[1] & 0x7f)
 
